@@ -19,4 +19,4 @@ Tx <-> Rx<br>
 Rx <-> Tx<br>
 Gnd <-> Gnd<br>
 
-Power to ESP external!
+Power to the ESP module is only external, from ZXY it is impossible!
