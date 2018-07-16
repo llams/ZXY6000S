@@ -20,3 +20,5 @@ Rx <-> Tx<br>
 Gnd <-> Gnd<br>
 
 Power to the ESP module is only external, from ZXY it is impossible!
+
+<img src="https://github.com/llams/ZXY6000S/blob/master/ZXY.gif">
