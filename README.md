@@ -21,4 +21,4 @@ Gnd <-> Gnd<br>
 
 Power to the ESP module is only external, from ZXY it is impossible!
 
-<img src="https://github.com/llams/ZXY6000S/blob/master/ZXY.gif">
+<img src="https://github.com/llams/ZXY6000S/blob/master/ZXY_0.03.gif">
