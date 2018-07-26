@@ -1,5 +1,6 @@
 # ZXY6000S
-ESP8266 &amp; ZXY6000S
+ESP8266 &amp; ZXY6000S<br><br>
+https://youtu.be/Hk6Tco2106I<br>
 
 <b>- tab Wi-Fi:</b><br>
 PIN: - 123 <br>
