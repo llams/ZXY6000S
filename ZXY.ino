@@ -3,11 +3,9 @@ ESP ZXY6005S
 */
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
-#include <EEPROM.h>						//EEPROM lib
+#include <EEPROM.h>				//EEPROM lib
 #include <ESP8266HTTPClient.h>			//for httpGET
 #include <Ticker.h>
-#include <OneWire.h>          			//OneWire для DS18B20
-
 
 /*******************************************************************/
 extern "C" {
@@ -30,24 +28,24 @@ extern struct rst_info resetInfo;
 #include <ESP8266HTTPUpdateServer.h>	//UpdateServer
 #endif
 
-#define RESET_PIN 5						//порт для сброса настроек
+#define RESET_PIN 5				//порт для сброса настроек
 #define _durationResetPull 6			//длительность нажатия кнопки для сброса настроек в секундах 
-#define IP_SIZE 4						//октеты IP адресов
-#define ETH_LEN 25						//размер команды EthAct после IP
-#define ID_LEN 6						//размер ID
-#define SSID_LEN 34						//размер SSID
-#define PASS_LEN 64						//размер PASS
+#define IP_SIZE 4				//октеты IP адресов
+#define ETH_LEN 25				//размер команды EthAct после IP
+#define ID_LEN 6				//размер ID
+#define SSID_LEN 34				//размер SSID
+#define PASS_LEN 64				//размер PASS
 
 
-const uint16_t EA_SID = 0;						//0 - SID
+const uint16_t EA_SID = 0;				//0 - SID
 const uint16_t EA_PAS = EA_SID + SSID_LEN;		//34 - PAS
-const uint16_t EA_RESET = EA_PAS + PASS_LEN;	//флаг сброса настроек EEPROM
+const uint16_t EA_RESET = EA_PAS + PASS_LEN;		//флаг сброса настроек EEPROM
 const uint16_t EA_ID = EA_RESET + 1;			//ID устройства
 const uint16_t EA_NMOD = EA_ID + ID_LEN;		//режим работы точка, клиент, DHCP
 const uint16_t EA_BAUD = EA_NMOD + 1;			//скорость шины UART 2400, 4800, 9600, 19200
 const uint16_t EA_ADDR = EA_BAUD + 1;			//адрес шины UART
 const uint16_t EA_MPT = EA_ADDR + 2;			//порт MQTT сервера
-const uint16_t EA_SCR = EA_MPT + 2;				//скрипт сервера
+const uint16_t EA_SCR = EA_MPT + 2;			//скрипт сервера
 const uint16_t EA_EIP = EA_SCR + ETH_LEN;       //ESP IP
 const uint16_t EA_MSK = EA_EIP + IP_SIZE;       //маска
 const uint16_t EA_GW = EA_MSK + IP_SIZE;        //шлюз
@@ -56,15 +54,15 @@ const uint16_t EA_ALL = EA_DNS + IP_SIZE;       //максимальный ад�
 
 
 //служебные переменные
-boolean dhcp;           						//DHCP, on-off
+boolean dhcp;           					//DHCP, on-off
 #define debounceDelay 30      					//время ожидания установки состояния кнопки  
 
 boolean rebootReq = false;      				//флаг для перезагрузки ESP
 boolean resetFlag = false;      				//флаг для сброса настроек SSID
 byte resetDurationCounter;      				//определяет длительность нажатия кнопки
 unsigned long timeResetPoint;   				//точка подсчета секунд нажатия кнопки сброса
-boolean apMode = false;							//флаг режима работы AP
-boolean highMillis = false;						//флаг переполнения значения millis(); для подсчета uptime
+boolean apMode = false;						//флаг режима работы AP
+boolean highMillis = false;					//флаг переполнения значения millis(); для подсчета uptime
 byte rollOver = 0;          					//количество 50-ков дней при переполнении millis();
 
 
@@ -115,8 +113,8 @@ float setU;
 float setI;
 
 unsigned long timeBusy; 				//период опроса
-boolean busy;							//флаг занятости шины
-uint8_t cmdnum;							//номер команды
+boolean busy;						//флаг занятости шины
+uint8_t cmdnum;						//номер команды
 
 // шапка HTML страницы
 const char PAGE_Head[] PROGMEM = "<html><head><title>ZXY6000S</title></head><body><meta name=\"viewport\" content=\"width=device-width\">";
@@ -214,9 +212,7 @@ void reqData(){
 			
 			//отсекаем обработанные команды
 			if (cmdnum && cmdnum < xSA) {
-				// if (returnval[cmdnum] == cmdval[cmdnum]){
-					cmdflag[cmdnum] = false;
-				// }
+				cmdflag[cmdnum] = false;
 			}
 			if (cmdnum == xSA) {
 				cmdflag[cmdnum] = false;
@@ -359,11 +355,11 @@ void buildSCRIPT(){
 	AJAX+="}\n";
 	AJAX+="function so(key){\n";
 	AJAX+="server = \"/zxy?so=\" + key;\n";
-	AJAX+="nocache = \"&nocache=\"+ Math.random() * 1000000;\n";   // чтобы браузер не обращался к кэш
+	AJAX+="nocache = \"&nocache=\"+ Math.random() * 1000000;\n";   				// чтобы браузер не обращался к кэш
 	AJAX+="var xmlhttp;\n";
 	AJAX+="if (window.XMLHttpRequest){;\n";							// код для IE7+, Firefox, Chrome, Opera, Safari
 	AJAX+="xmlhttp=new XMLHttpRequest();\n";
-	AJAX+="} else {\n";												// код для IE6, IE5
+	AJAX+="} else {\n";									// код для IE6, IE5
 	AJAX+="xmlhttp=new ActiveXObject(\"Microsoft.XMLHTTP\");\n";
 	AJAX+="}\n";
 	AJAX+="xmlhttp.onreadystatechange=function(){\n";
